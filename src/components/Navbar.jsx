@@ -83,7 +83,7 @@ const Navbar = () => {
           </div>
           {navDetails.map((nav, idx) => {
             return (
-              <Link key={idx} className="text-lg" to={nav.path}>
+              <Link key={idx} className="text-lg" to={nav.path}  onClick={() => setMenuOpen(false)} >
                 {nav.name}
               </Link>
             );
