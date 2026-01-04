@@ -7,6 +7,7 @@ import Opportunities from './pages/Opportunities';
 import Platform from './pages/Platform';
 import Resources from './pages/Resources';
 import PageNotFound from './pages/PageNotFound';
+import Footer from './components/Footer';
 
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
         {/* page not found page*/}
         <Route path='*' element={<PageNotFound/>}/>
       </Routes>
+      <Footer/>
     </div>
   )
 }
