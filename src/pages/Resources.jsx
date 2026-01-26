@@ -154,6 +154,7 @@ export default function Resources() {
             desc: "Expert guidance",
             btn: "Watch Sessions",
           },
+          
         ]}
       />
     </div>
