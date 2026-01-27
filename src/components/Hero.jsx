@@ -1,18 +1,51 @@
-import React from "react";
-
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { useGSAP } from "@gsap/react";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
 import { ArrowRight } from "lucide-react";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
-import PeopleIcon from "@mui/icons-material/People";
 import { Users } from "lucide-react";
 
 const Hero = () => {
+  const heroRef = useRef(null);
+  const leftRef = useRef(null);
+  const rightRef = useRef(null);
+
+  useEffect(() => {
+    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+    tl.from(heroRef.current, {
+      opacity: 0,
+      duration: 0.6,
+    })
+      .from(
+        leftRef.current.children,
+        {
+          y: 40,
+          opacity: 0,
+          stagger: 0.12,
+          duration: 0.7,
+        },
+        "-=0.3",
+      )
+      .from(
+        rightRef.current,
+        {
+          x: 60,
+          opacity: 0,
+          duration: 0.8,
+        },
+        "-=0.5",
+      );
+  }, []);
+
   return (
-    <div className="relative min-h-screen overflow-hidden flex items-center justify-center pt-20 px-6">
+    <div ref={heroRef} className="relative min-h-screen overflow-hidden flex items-center justify-center pt-20 px-6">
       <div className="absolute top-1/4 -left-20 w-96 h-96 bg-emerald-500/15 rounded-full blur-[100px]"></div>
       <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-emerald-500/10 rounded-full blur-[100px]"></div>
+
       <div className="max-w-7xl lg:my-0 my-5 mx-auto grid lg:grid-cols-2 gap-16 items-center relative z-10">
-        <div className="space-y-6 text-center lg:text-left">
+
+        <div ref={leftRef} className="space-y-6 text-center lg:text-left">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-green-400 text-xs font-bold tracking-widest uppercase">
             <span className="relative flex w-2 h-2">
               <span className="animate-ping absolute inline-flex h-full w-full bg-green-400 rounded-full opacity-75 "></span>
@@ -41,7 +74,8 @@ const Hero = () => {
             </button>
           </div>
         </div>
-        <div className="relative">
+
+        <div ref={rightRef} className="relative">
           <div className="animate-float">
             <div className="glass-card p-4 relative rounded-3xl overflow-hidden">
               <div className="aspect-video bg-linear-to-br from-gray-800 to-gray-900 rounded-2xl flex items-center justify-center border border-white/10">

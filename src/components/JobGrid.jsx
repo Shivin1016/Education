@@ -1,7 +1,14 @@
-import React from "react";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import { BarChart3, Database, Layout, Dot, ArrowRight } from "lucide-react";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
+
 const JobGrid = () => {
+  const sectionRef = useRef(null);
+  const cardsRef = useRef([]);
+
   const jobs = [
     {
       id: "job-001",
@@ -43,11 +50,11 @@ const JobGrid = () => {
         maxLPA: 15,
         unit: "k/mo(Intern)",
       },
-      theme :{
-          bg: "bg-blue-400",
-          bg_blur: "bg-blue-500/10",
-          color: "text-blue-400",
-      }
+      theme: {
+        bg: "bg-blue-400",
+        bg_blur: "bg-blue-500/10",
+        color: "text-blue-400",
+      },
     },
 
     {
@@ -66,15 +73,46 @@ const JobGrid = () => {
         maxLPA: 15,
         unit: "LPA",
       },
-      theme:{ 
-          bg_blur: "bg-purple-500/10",
-          color: "text-purple-400",
+      theme: {
+        bg_blur: "bg-purple-500/10",
+        color: "text-purple-400",
       },
     },
   ];
 
+  useEffect(() => {
+    gsap.fromTo(
+      sectionRef.current,
+      { opacity: 0 },
+      {
+        opacity: 1,
+        duration: 0.6,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+        },
+      },
+    );
+
+    gsap.fromTo(
+      cardsRef.current,
+      { y: 60, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 75%",
+        },
+      },
+    );
+  }, []);
+
   return (
-    <div className="px-6 py-24 bg-[#080808]">
+    <div ref={sectionRef} className="px-6 py-24 bg-[#080808]">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
           <div>
@@ -94,16 +132,18 @@ const JobGrid = () => {
           </a>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {jobs.map((job) => {
+          {jobs.map((job , idx) => {
             return (
-              <div key={job.id} className="glass-card p-6 rounded-3xl group">
+              <div key={job.id} ref={(el) => (cardsRef.current[idx] = el)} className="glass-card p-6 rounded-3xl group">
                 <div className="flex justify-between items-start mb-6">
                   <div
                     className={`w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center ${job.theme.color}`}
                   >
                     <job.company.logo />
                   </div>
-                  <span className={`px-3 py-1 uppercase text-[10px] font-bold rounded-full tracking-tighter ${job.theme.bg_blur} ${job.theme.color}`}>
+                  <span
+                    className={`px-3 py-1 uppercase text-[10px] font-bold rounded-full tracking-tighter ${job.theme.bg_blur} ${job.theme.color}`}
+                  >
                     {job.company.job_type}
                   </span>
                 </div>
