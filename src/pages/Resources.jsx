@@ -154,7 +154,6 @@ export default function Resources() {
             desc: "Expert guidance",
             btn: "Watch Sessions",
           },
-          
         ]}
       />
     </div>
@@ -186,4 +185,3 @@ function Section({ title, subtitle, cards }) {
     </div>
   );
 }
-
